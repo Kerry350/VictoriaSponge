@@ -1,7 +1,13 @@
 (function(root) {
   
-  var applyTransformationToNodes = function(nodes, fn) {
+  var applyToNodes = function(nodes, args, fn) {
+    for (var i = 0; i < nodes.length; i++) {
+      fn.apply(nodes[i], args);
+    }
+  };
 
+  var args = function(arguments) {
+    return Array.prototype.slice.call(arguments);
   };
 
   var VictoriaSponge = root.VictoriaSponge = root.$ = function(selector) {
@@ -10,21 +16,61 @@
     }
 
     var nodes = document.querySelectorAll(selector);
-
     this.length = nodes.length;
-
     this.nodes = (this.length > 0) ? nodes : null;
 
     return this;
   }
 
   VictoriaSponge.prototype = {
-    addClass: function() {
+    addClass: function(classes) {
+      applyToNodes(this.nodes, args(arguments), function(classes) {
+        if (this.nodeType === 1) {
+          var classesToAdd = classes.split(' ');
+          var classes = this.className.split(' ');  
 
+          classesToAdd.forEach(function(classs) {
+            if (classes.indexOf(classs) < 0) {
+              classes.push(classs);
+            }
+          });        
+          
+          this.className = classes.join(' ');
+        }
+      });
+
+      return this;
     },
 
-    removeClass: function() {
+    removeClass: function(classes) {
+      applyToNodes(this.nodes, args(arguments), function(classes) {
+        if (this.nodeType === 1) {
+          var classesToRemove = classes.split(' ');
+          var classes = this.className.split(' ');  
 
+          var toKeep = classes.filter(function(classs) {
+            var keep = true;
+
+            var i = 0;
+
+            while (i < classesToRemove.length) {
+              if (classesToRemove[i] === classs) {
+                keep = false;
+                break;
+              }
+
+              i++;
+            }
+
+            return keep;
+
+          });
+          
+          this.className = toKeep.join(' ');
+        }
+      });
+
+      return this;
     },
 
     addAttribute: function() {
