@@ -98,7 +98,18 @@
     },
 
     filter: function(fn) {
+      var results = [];
 
+      for (var i = 0, len = this.nodes.length; i < len; i++) {
+        if (fn.call(this.nodes[i], i)) {
+          results.push(this.nodes[i]);
+        }
+      }
+
+      this.nodes = results;
+      this.length = results.length;
+
+      return this;
     },
 
     getStyle: function(style) {
