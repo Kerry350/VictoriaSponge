@@ -1,5 +1,16 @@
 (function(root) {
-  
+
+  var nodeListToArray = function(nodeList) {
+    
+      var arr = [];
+
+      for(var i=0, len = nodeList.length; i < len; i++) {
+        arr.push(nodeList[i]);
+      }
+      
+      return arr;
+  };
+
   var applyToNodes = function(nodes, args, fn) {
     for (var i = 0; i < nodes.length; i++) {
       fn.apply(nodes[i], args);
@@ -15,7 +26,7 @@
       return new VictoriaSponge(selector);
     }
 
-    var nodes = document.querySelectorAll(selector);
+    var nodes = nodeListToArray(document.querySelectorAll(selector));
     this.length = nodes.length;
     this.nodes = (this.length > 0) ? nodes : null;
 
@@ -23,6 +34,7 @@
   }
 
   VictoriaSponge.prototype = {
+    // Add in classList support for modern browsers
     addClass: function(classes) {
       applyToNodes(this.nodes, args(arguments), function(classes) {
         if (this.nodeType === 1) {
@@ -43,6 +55,7 @@
     },
 
     removeClass: function(classes) {
+      // Add in classList support for modern browsers
       applyToNodes(this.nodes, args(arguments), function(classes) {
         if (this.nodeType === 1) {
           var classesToRemove = classes.split(' ');
@@ -63,7 +76,6 @@
             }
 
             return keep;
-
           });
           
           this.className = toKeep.join(' ');
@@ -73,11 +85,11 @@
       return this;
     },
 
-    addAttribute: function() {
+    addAttribute: function(attr, value) {
 
     },
 
-    removeAttribute: function() {
+    removeAttribute: function(attr, value) {
 
     },
 
@@ -85,11 +97,11 @@
 
     },
 
-    filter: function() {
+    filter: function(fn) {
 
     },
 
-    getStyle: function() {
+    getStyle: function(style) {
       
     },
 
