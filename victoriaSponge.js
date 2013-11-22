@@ -85,6 +85,20 @@
       return this;
     },
 
+    hasClass: function(classs) {
+      var hasClass = false;
+
+      for (var i = 0, len = this.nodes.length; i < len; i++) {
+        var classesApplied = this.nodes[i].className.split(' ');
+        if (classesApplied.indexOf(classs) !== -1) {
+          hasClass = true;
+          break;
+        }
+      }
+
+      return hasClass;
+    },
+
     addAttribute: function(attr, value) {
       applyToNodes(this.nodes, args(arguments), function(attr, value) {
         this.setAttribute(attr, value);
@@ -148,5 +162,6 @@
 
   // These are just for fun following the whole cake theme :)
   VictoriaSponge.prototype.addDecoration = VictoriaSponge.prototype.addClass;
+  VictoriaSponge.prototype.eat = VictoriaSponge.prototype.remove;
 
 })(window);
