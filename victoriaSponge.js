@@ -130,6 +130,12 @@
       return result ? result : null;
     },
 
+    remove: function() {
+      applyToNodes(this.nodes, args(arguments), function() {
+        this.parentNode.removeChild(this);
+      }); 
+    },
+
     on: function() {
 
     },
