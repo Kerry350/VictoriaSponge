@@ -86,11 +86,19 @@
     },
 
     addAttribute: function(attr, value) {
+      applyToNodes(this.nodes, args(arguments), function(attr, value) {
+        this.setAttribute(attr, value);
+      });
 
+      return this;
     },
 
-    removeAttribute: function(attr, value) {
+    removeAttribute: function(attr) {
+      applyToNodes(this.nodes, args(arguments), function(attr, value) {
+        this.removeAttribute(attr);
+      });
 
+      return this;
     },
 
     offset: function() {
@@ -113,7 +121,13 @@
     },
 
     getStyle: function(style) {
+      var node;
       
+      if (node = this.nodes[0]) {
+        var result = window.getComputedStyle(node, null).getPropertyValue(style);
+      }
+
+      return result ? result : null;
     },
 
     on: function() {
