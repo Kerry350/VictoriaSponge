@@ -94,7 +94,7 @@
     },
 
     removeAttribute: function(attr) {
-      applyToNodes(this.nodes, args(arguments), function(attr, value) {
+      applyToNodes(this.nodes, args(arguments), function(attr) {
         this.removeAttribute(attr);
       });
 
@@ -122,7 +122,7 @@
 
     getStyle: function(style) {
       var node;
-      
+
       if (node = this.nodes[0]) {
         var result = window.getComputedStyle(node, null).getPropertyValue(style);
       }
